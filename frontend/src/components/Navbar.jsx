@@ -1,42 +1,80 @@
-import React from 'react'
-import { ShoppingCart , Menu ,ChevronDown} from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { ShoppingCart, Menu, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
-  return (
-    <nav className='flex justify-around items-center bg-white shadow-md py-4'>
-        <img src="logo.png" alt="logo" className='cursor-pointer w-32 md:w-40 lg:w-44 h-auto' />
+  const [scrolled, setScrolled] = useState(false);
 
-        <div>
-            <ul className='lg:flex gap-8 items-center hidden text-lg font-semibold'>
-                <li className='text-marama-green hover:text-maroon cursor-pointer'>
-                    Home
-                </li>
-                <li className='text-marama-green  hover:text-maroon cursor-pointer' >
-                    About
-                </li>
-                <li className='text-marama-green  hover:text-maroon cursor-pointer'>
-                    Shop
-                </li>
-                <li className='text-marama-green hover:text-maroon cursor-pointer flex items-center gap-1'>
-                    Products 
-                    <ChevronDown /> 
-                </li>
-            </ul>
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <nav
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ease-in-out ${
+        scrolled ? "px-4 pt-3" : "px-0 pt-0"
+      }`}
+    >
+      <div
+        className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
+          scrolled
+            ? "max-w-6xl rounded-full border border-gray-200 bg-white/95 px-6 py-3 shadow-lg backdrop-blur-md"
+            : "w-full border-b border-gray-100 bg-white px-8 py-5 shadow-sm"
+        }`}
+      >
+        {/* Logo */}
+        <img
+          src="logo.png"
+          alt="Marama Foods"
+          className="h-auto w-32 cursor-pointer transition-all duration-500 md:w-36"
+        />
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:block">
+          <ul className="flex items-center gap-8 text-lg font-semibold">
+            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+              Home
+            </li>
+
+            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+              About
+            </li>
+
+            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+              Shop
+            </li>
+
+            <li className="flex cursor-pointer items-center gap-1 text-marama-green transition duration-300 hover:text-maroon">
+              Products
+              <ChevronDown className="h-4 w-4" />
+            </li>
+          </ul>
         </div>
 
-        <div className='flex gap-4 items-center '>
-            <button className='bg-marama-green rounded-lg px-4 py-1 text-white hover:bg-maroon transition duration-300 cursor-pointer hidden lg:block'>
-                Login
-            </button> 
+        {/* Actions */}
+        <div className="flex items-center gap-4">
+          <button className="hidden cursor-pointer rounded-full bg-marama-green px-5 py-2 text-sm font-semibold text-white transition duration-300 hover:bg-maroon lg:block">
+            Login
+          </button>
 
-            <ShoppingCart className='text-marama-green cursor-pointer hover:text-maroon' />
+          <button className="cursor-pointer">
+            <ShoppingCart className="h-6 w-6 text-marama-green transition duration-300 hover:text-maroon" />
+          </button>
 
-            <button className="lg:hidden">
-               <Menu className="text-marama-green hover:text-maroon cursor-pointer" />
-            </button>   
-        </div> 
+          <button className="cursor-pointer lg:hidden">
+            <Menu className="h-6 w-6 text-marama-green transition duration-300 hover:text-maroon" />
+          </button>
+        </div>
+      </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
