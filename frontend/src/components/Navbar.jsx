@@ -1,5 +1,5 @@
 import React from 'react'
-import { ShoppingCart , Menu} from 'lucide-react';
+import { ShoppingCart , Menu ,ChevronDown} from 'lucide-react';
 
 const Navbar = () => {
   return (
@@ -8,10 +8,19 @@ const Navbar = () => {
 
         <div>
             <ul className='lg:flex gap-8 items-center hidden text-lg font-semibold'>
-                <li className='text-marama-green hover:text-maroon cursor-pointer'>Home</li>
-                <li className='text-marama-green  hover:text-maroon cursor-pointer' >About</li>
-                <li className='text-marama-green  hover:text-maroon cursor-pointer'>Shop</li>
-                <li className='text-marama-green hover:text-maroon cursor-pointer'>Products</li>
+                <li className='text-marama-green hover:text-maroon cursor-pointer'>
+                    Home
+                </li>
+                <li className='text-marama-green  hover:text-maroon cursor-pointer' >
+                    About
+                </li>
+                <li className='text-marama-green  hover:text-maroon cursor-pointer'>
+                    Shop
+                </li>
+                <li className='text-marama-green hover:text-maroon cursor-pointer flex items-center gap-1'>
+                    Products 
+                    <ChevronDown /> 
+                </li>
             </ul>
         </div>
 
