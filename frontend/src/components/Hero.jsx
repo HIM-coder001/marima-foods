@@ -6,7 +6,6 @@ const Hero = () => {
   return (
     <section className="px-6 py-12">
       <div className="mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-2 lg:gap-16">
-        
         <div className="max-w-xl">
           <h1 className="text-4xl font-bold leading-tight tracking-tight text-marama-green sm:text-5xl lg:text-6xl">
             Better Food for Better Living.
@@ -17,18 +16,24 @@ const Hero = () => {
             selected ingredients made to bring better eating closer to home.
           </p>
 
-          <button className="mt-8 flex cursor-pointer items-center gap-2 rounded-lg bg-marama-green px-6 py-3 font-semibold text-white transition duration-300 hover:bg-maroon">
-            Shop Our Products
-            <ArrowRight />
-          </button>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <button className="flex cursor-pointer items-center gap-2 rounded-full bg-marama-green px-6 py-3 font-semibold text-white transition duration-300 hover:bg-maroon">
+              Shop Now
+              <ArrowRight />
+            </button>
+
+            <button className="flex cursor-pointer items-center border border-maroon gap-2 px-6 py-3 rounded-4xl font-semibold text-maroon transition duration-300 hover:text-maroon">
+              Explore Products
+              <ArrowRight />
+            </button>
+          </div>
         </div>
 
         <img
           src={heroImage}
-          alt="hero image"
+          alt="Marama Foods"
           className="h-100 w-full rounded-2xl object-cover"
         />
-
       </div>
     </section>
   );
