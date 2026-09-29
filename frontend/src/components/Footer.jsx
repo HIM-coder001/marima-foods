@@ -21,7 +21,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <img
-              src="/images/logo/marama-logo.png"
+              src="logo.png"
               alt="Marama Foods"
               className="w-36"
             />
@@ -36,7 +36,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Facebook"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300 hover:border-white hover:bg-white hover:text-marama-green"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300 hover:border-[#1877F2] hover:bg-[#1877F2]"
               >
                 <FaFacebookF className="h-4 w-4" />
               </a>
@@ -44,7 +44,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300 hover:border-white hover:bg-white hover:text-marama-green"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300hover:border-[#E1306C] hover:bg-[#E1306C]"
               >
                 <FaInstagram className="h-5 w-5" />
               </a>
@@ -52,7 +52,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="X"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300 hover:border-white hover:bg-white hover:text-marama-green"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition duration-300 hover:border-black hover:bg-black"
               >
                 <FaXTwitter className="h-4 w-4" />
               </a>
