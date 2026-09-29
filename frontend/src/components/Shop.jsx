@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Search, ArrowRight, ArrowLeft } from "lucide-react";
-import { products } from "../data/products";
+import { products } from "../data/shop";
 import ProductCard from "./ProductCard";
 
 const Shop = () => {
@@ -30,7 +30,7 @@ const Shop = () => {
           </p>
 
           <h2 className="mt-2 text-4xl font-bold leading-tight text-marama-green sm:text-5xl">
-            Our Products
+            Best Sellers
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg">
