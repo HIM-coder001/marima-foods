@@ -1,23 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Search, ArrowRight, ArrowLeft } from "lucide-react";
-import { products } from "../data/shop";
+import { Link } from "react-router-dom";
+import { products, categories } from "../data/products";
 import ProductCard from "./ProductCard";
 
+const VISIBLE_COUNT = 3;
+
 const Shop = () => {
-  const [currentIndex, setCurrentIndex] = useState(3);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(0);
 
-  const visibleProducts = products.slice(3);
+  const filtered = useMemo(() => {
+    return products.filter((p) => {
+      const matchCat =
+        activeCategory === "All" || p.category === activeCategory;
+      const matchSearch = p.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      return matchCat && matchSearch;
+    });
+  }, [activeCategory, searchQuery]);
 
-  const handlePrevious = () => {
-    if (currentIndex > 3) {
-      setCurrentIndex(currentIndex - 1);
-    }
+  const totalPages = Math.ceil(filtered.length / VISIBLE_COUNT);
+  const visible = filtered.slice(
+    page * VISIBLE_COUNT,
+    page * VISIBLE_COUNT + VISIBLE_COUNT,
+  );
+
+  const handleCategory = (cat) => {
+    setActiveCategory(cat);
+    setPage(0);
   };
 
-  const handleNext = () => {
-    if (currentIndex < products.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(0);
   };
 
   return (
@@ -28,11 +46,9 @@ const Shop = () => {
           <p className="text-sm font-bold uppercase tracking-wide text-maroon">
             Shop
           </p>
-
-          <h2 className="mt-2 text-4xl font-bold leading-tight text-marama-green sm:text-5xl">
+          <h2 className="mt-2 text-3xl font-bold leading-tight text-marama-green sm:text-4xl lg:text-5xl">
             Best Sellers
           </h2>
-
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg">
             Discover wholesome foods and carefully selected ingredients for
             better everyday living.
@@ -40,107 +56,113 @@ const Shop = () => {
         </div>
 
         {/* Search */}
-        <div className="mx-auto mt-8 max-w-2xl">
-          <div className="flex items-center rounded-full border border-marama-green px-5 py-3 shadow-sm">
-            <Search className="mr-3 h-5 w-5 text-gray-400" />
-
+        <div className="mx-auto mt-8 max-w-xl">
+          <div className="flex items-center rounded-full border border-marama-green bg-white px-5 py-3 shadow-sm focus-within:ring-2 focus-within:ring-marama-green/20">
+            <Search className="mr-3 h-5 w-5 shrink-0 text-gray-400" />
             <input
               type="text"
+              value={searchQuery}
+              onChange={handleSearch}
               placeholder="Search products..."
-              className="w-full bg-transparent text-sm outline-none sm:text-base"
+              className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400 sm:text-base"
             />
           </div>
         </div>
 
         {/* Categories */}
-        <div className="mt-8 overflow-x-auto">
-          <div className="flex min-w-max justify-center gap-3 px-2">
-            <button className="cursor-pointer rounded-full bg-marama-green px-5 py-2 text-sm font-semibold text-white">
-              All
-            </button>
-
-            <button className="cursor-pointer rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-600 transition hover:border-marama-green hover:text-marama-green">
-              Vegetables
-            </button>
-
-            <button className="cursor-pointer rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-600 transition hover:border-marama-green hover:text-marama-green">
-              Cereals
-            </button>
-
-            <button className="cursor-pointer rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-600 transition hover:border-marama-green hover:text-marama-green">
-              Oils
-            </button>
-
-            <button className="cursor-pointer rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-600 transition hover:border-marama-green hover:text-marama-green">
-              Meal Kits
-            </button>
-
-            <button className="cursor-pointer rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-600 transition hover:border-marama-green hover:text-marama-green">
-              Marama Basket
-            </button>
+        <div className="mt-6 overflow-x-auto pb-1">
+          <div className="flex min-w-max justify-center gap-2 px-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => handleCategory(cat)}
+                className={`cursor-pointer rounded-full px-5 py-2 text-sm font-semibold transition duration-300 ${
+                  activeCategory === cat
+                    ? "bg-marama-green text-white shadow-sm"
+                    : "border border-gray-200 text-gray-600 hover:border-marama-green hover:text-marama-green"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Carousel */}
-        <div className="relative mt-10">
-          {/* Left Arrow */}
-          <button
-            onClick={handlePrevious}
-            disabled={currentIndex === 3}
-            className="absolute left-0 top-1/2 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-white p-2 shadow-md transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 sm:left-2 sm:p-3"
-          >
-            <ArrowLeft className="h-5 w-5 text-marama-green sm:h-6 sm:w-6" />
-          </button>
-
-          {/* Carousel Viewport */}
-          <div className="overflow-hidden px-7 sm:px-10">
-            {/* Moving Track */}
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${
-                  (currentIndex - 3) *
-                  (100 /
-                    (window.innerWidth >= 1024
-                      ? 3
-                      : window.innerWidth >= 640
-                        ? 2
-                        : 1))
-                }%)`,
-              }}
-            >
-              {visibleProducts.map((product) => (
-                <div
+        {/* Products Grid */}
+        {visible.length > 0 ? (
+          <>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {visible.map((product) => (
+                <ProductCard
                   key={product.id}
-                  className="w-full shrink-0 px-2 sm:w-1/2 lg:w-1/3"
-                >
-                  <ProductCard
-                    image={product.image}
-                    name={product.name}
-                    category={product.category}
-                    price={product.price}
-                  />
-                </div>
+                  id={product.id}
+                  image={product.image}
+                  name={product.name}
+                  category={product.category}
+                  price={product.price}
+                />
               ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-10 flex items-center justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.max(p - 1, 0))}
+                  disabled={page === 0}
+                  aria-label="Previous page"
+                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-marama-green transition hover:border-marama-green hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </button>
+
+                <span className="text-sm font-semibold text-gray-600">
+                  {page + 1} / {totalPages}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setPage((p) => Math.min(p + 1, totalPages - 1))
+                  }
+                  disabled={page >= totalPages - 1}
+                  aria-label="Next page"
+                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-marama-green transition hover:border-marama-green hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="mt-16 text-center">
+            <p className="text-lg font-semibold text-gray-500">
+              No products found.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery("");
+                setActiveCategory("All");
+              }}
+              className="mt-4 text-sm font-semibold text-marama-green underline transition hover:text-maroon"
+            >
+              Clear filters
+            </button>
           </div>
+        )}
 
-          {/* Right Arrow */}
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === products.length - 1}
-            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-white p-2 shadow-md transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 sm:right-2 sm:p-3"
-          >
-            <ArrowRight className="h-5 w-5 text-marama-green sm:h-6 sm:w-6" />
-          </button>
-        </div>
-
-        {/* Show More */}
+        {/* View All CTA */}
         <div className="mt-10 flex justify-center">
-          <button className="flex cursor-pointer items-center gap-2 rounded-full bg-marama-green px-5 py-3 font-semibold text-white transition duration-300 hover:bg-maroon">
-            Show More
+          <Link
+            to="/shop"
+            className="flex cursor-pointer items-center gap-2 rounded-full bg-marama-green px-6 py-3 font-semibold text-white transition duration-300 hover:bg-maroon"
+          >
+            View All Products
             <ArrowRight className="h-5 w-5" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>
