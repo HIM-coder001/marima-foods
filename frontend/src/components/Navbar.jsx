@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ShoppingCart, Menu, ChevronDown } from "lucide-react";
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -39,22 +40,22 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden lg:block">
           <ul className="flex items-center gap-8 text-lg font-semibold">
-            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+            <Link to='/' className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
               Home
-            </li>
+            </Link>
 
-            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+            <Link to='/about' className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
               About
-            </li>
+            </Link>
 
-            <li className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
+            <Link to='/shop' className="cursor-pointer text-marama-green transition duration-300 hover:text-maroon">
               Shop
-            </li>
+            </Link>
 
-            <li className="flex cursor-pointer items-center gap-1 text-marama-green transition duration-300 hover:text-maroon">
+            <Link to='/products' className="flex cursor-pointer items-center gap-1 text-marama-green transition duration-300 hover:text-maroon">
               Products
               <ChevronDown className="h-4 w-4" />
-            </li>
+            </Link>
           </ul>
         </div>
 
@@ -64,9 +65,9 @@ const Navbar = () => {
             Login
           </button>
 
-          <button className="cursor-pointer">
+          <Link to='/cart' className="cursor-pointer">
             <ShoppingCart className="h-6 w-6 text-marama-green transition duration-300 hover:text-maroon" />
-          </button>
+          </Link>
 
           <button className="cursor-pointer lg:hidden">
             <Menu className="h-6 w-6 text-marama-green transition duration-300 hover:text-maroon" />
